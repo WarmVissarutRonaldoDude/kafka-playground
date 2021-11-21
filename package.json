@@ -1,0 +1,25 @@
+{
+  "name": "twitter-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently -r -k yarn:start:producer yarn:start:consumer",
+    "start:producer": "ts-node --project ./tsconfig.json src/producer/index.ts",
+    "start:consumer": "ts-node --project ./tsconfig.json src/consumer/index.ts",
+    "start:infra": "docker-compose -f infra/docker-compose.yml up"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@elastic/elasticsearch": "7.15.0",
+    "concurrently": "5.3.0",
+    "kafkajs": "^1.15.0",
+    "node-cron": "3.0.0",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.2"
+  },
+  "devDependencies": {
+    "@types/node-cron": "3.0.0"
+  }
+}
