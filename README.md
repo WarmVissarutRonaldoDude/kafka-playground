@@ -8,7 +8,7 @@
 1.2 kafka-server-start config/server.properties
 
 2. recheck or manual provision topic before running app.
-2.1 kafka-topics --bootstrap-server localhost:9092 --topic twitterTest --create --partitions 3 --replication-factor 1
+2.1 kafka-topics --bootstrap-server localhost:9092 --topic twitterSearch --create --partitions 3 --replication-factor 1
 
 3. start infra by running `yarn start:infra`
 

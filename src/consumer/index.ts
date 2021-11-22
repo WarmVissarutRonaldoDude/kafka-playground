@@ -1,6 +1,8 @@
+require('dotenv').config();
+
 import { creatESAdapter } from "../common/infra/ElasticsearchAdapter";
 import { createKafkaAdapter } from "../common/infra/Kafka";
-import { KafkaTopic } from "../common/model/KafkaTopic";
+import { KafkaTopic, KafkaTweetMessage } from "../common/model/KafkaTopic";
 import { ESIndex } from "../common/model/Elasticsearch";
 
 const consumer = async (): Promise<void> => {
@@ -31,10 +33,7 @@ const consumer = async (): Promise<void> => {
         key: message.key.toString(), // need to string as it's Buffer
       });
 
-      const messageInObj = JSON.parse(message.value.toString()) as {
-        tweetMessage: string,
-        tweetTime: number
-      }
+      const messageInObj: KafkaTweetMessage = JSON.parse(message.value.toString())
 
       // sent data to ES
       await esAdapter.index({
