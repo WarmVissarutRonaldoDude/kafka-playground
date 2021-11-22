@@ -29,7 +29,7 @@ const producer = async (): Promise<void> => {
         tweetMessage: tweet.text,
         tweetTime: tweet.created_at,
         authorId: tweet.author_id,
-        lang: tweet.lang
+        lang: tweet.lang,
       } as KafkaTweetMessage),
     }));
 
@@ -38,6 +38,8 @@ const producer = async (): Promise<void> => {
       messages: kafkaMessages,
       compression: CompressionTypes.Snappy,
     });
+
+    console.debug("Message send to kafka", { topic: KafkaTopic.twitterSearch });
   };
 
   // repeat every minute

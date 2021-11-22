@@ -1,10 +1,19 @@
-import { Kafka, Producer, Consumer } from "kafkajs";
+import {
+  Kafka,
+  Producer,
+  Consumer,
+  CompressionTypes,
+  CompressionCodecs,
+} from "kafkajs";
+
+// https://kafka.js.org/docs/producing#a-name-compression-snappy-a-snappy
+const SnappyCodec = require('kafkajs-snappy')
 
 type KafkaAdapter = {
   producer: Producer | null;
   consumer: Consumer | null;
   kafkaClient: Kafka;
-}
+};
 
 export const createKafkaAdapter = async (ops: {
   consumer: { groupId: string } | null;
@@ -19,15 +28,15 @@ export const createKafkaAdapter = async (ops: {
   const result: KafkaAdapter = {
     producer: null,
     consumer: null,
-    kafkaClient: kafka
-  }
+    kafkaClient: kafka,
+  };
 
-
+  CompressionCodecs[CompressionTypes.Snappy] = SnappyCodec
 
   if (ops.producer) {
     const producer = kafka.producer({
       idempotent: true,
-      maxInFlightRequests: 5
+      maxInFlightRequests: 5,
     });
     await producer.connect();
     result.producer = producer;
